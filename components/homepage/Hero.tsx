@@ -27,7 +27,7 @@ const FloatingBlob = ({ initialTop, initialLeft }: { initialTop: number; initial
 
 export default function Hero() {
   return (
-    <div className="relative h-[calc(100vh)] w-full overflow-hidden px-10">
+    <div className="relative h-[calc(80vh)] w-full px-10">
       <h1 className="relative z-20 mt-40 text-[clamp(5.5rem,4rem+6vw,10.75rem)] leading-none font-medium">
         {' '}
         Design Agency Based in India.{' '}
