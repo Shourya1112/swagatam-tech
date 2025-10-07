@@ -2,19 +2,19 @@
 
 import React, { ReactNode } from 'react'
 import { DeviceProvider } from 'next-device-context'
-import { ThemeProvider } from './theme-provider'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <DeviceProvider>
-      <ThemeProvider
+      <NextThemesProvider
         attribute="class"
         defaultTheme="light"
         enableSystem={false}
         disableTransitionOnChange
       >
         {children}
-      </ThemeProvider>
+      </NextThemesProvider>
     </DeviceProvider>
   )
 }

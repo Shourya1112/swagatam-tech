@@ -36,9 +36,10 @@ export default function Hero() {
         {' '}
         <p className="mt-10 max-w-[70rem] text-right text-2xl font-medium text-neutral-700 md:text-right lg:mt-20">
           {' '}
-          We're a full-stack tech agency helping ambitious brands launch, scale, and dominate their
-          markets. <br /> From web and mobile development to cloud solutions and product innovation,
-          we turn <br /> bold ideas into revenue-driving digital realities. Get Started →{' '}
+          We&apos;re a full-stack tech agency helping ambitious brands launch, scale, and dominate
+          their markets. <br /> From web and mobile development to cloud solutions and product
+          innovation, we turn <br /> bold ideas into revenue-driving digital realities. Get Started
+          →{' '}
         </p>{' '}
       </div>
       {/* tr */}
