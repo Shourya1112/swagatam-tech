@@ -1,8 +1,7 @@
-import { useScroll, useTransform } from 'framer-motion'
 // import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import NavBarFixed from './NavBarFixed'
-import NavBarStatic from './NavBarStatic'
+// import NavBarStatic from './NavBarStatic'
 
 const navItems = [
   { name: 'Home', link: '/' },
@@ -13,38 +12,44 @@ const navItems = [
 ]
 
 const NavBar = () => {
-  const { scrollYProgress } = useScroll()
+  // const { scrollYProgress } = useScroll()
 
-  //   const location = usePathname()
+  // //   const location = usePathname()
 
-  const [scrollPercentage, setScrollPercentage] = useState(0)
-  //   const [index, setIndex] = useState(0)
-  //   const [locationIndex, setLocationIndex] = useState(0)
+  // // const [scrollPercentage, setScrollPercentage] = useState(0)
+  // const [scrolled, setScrolled] = useState(false)
+  // //   const [index, setIndex] = useState(0)
+  // //   const [locationIndex, setLocationIndex] = useState(0)
 
-  //   useEffect(() => {
-  //     const startIndex = navItems.findIndex((item) => item.link === location)
+  // //   useEffect(() => {
+  // //     const startIndex = navItems.findIndex((item) => item.link === location)
 
-  //     console.log(startIndex)
+  // //     console.log(startIndex)
 
-  //     setIndex(startIndex)
-  //     setLocationIndex(startIndex)
-  //   }, [navItems, location])
+  // //     setIndex(startIndex)
+  // //     setLocationIndex(startIndex)
+  // //   }, [navItems, location])
 
-  // Transform scroll progress to percentage (0-100)
-  const scrollPercentageValue = useTransform(scrollYProgress, [0, 1], [0, 100])
+  // // Transform scroll progress to percentage (0-100)
+  // const scrollPercentageValue = useTransform(scrollYProgress, [0, 1], [0, 100])
 
-  useEffect(() => {
-    const unsubscribe = scrollPercentageValue.on('change', (latest) => {
-      const percentage = Math.round(latest)
-      setScrollPercentage(percentage)
-      console.log(percentage)
-    })
+  // useEffect(() => {
+  //   const unsubscribe = scrollPercentageValue.on('change', (latest) => {
+  //     const scrollindex = 10
+  //     const percentage = Math.round(latest)
+  //     // setScrollPercentage(percentage)
+  //     setScrolled(percentage > scrollindex)
+  //     console.log(percentage)
+  //   })
 
-    return () => unsubscribe()
-  }, [scrollPercentageValue])
+  //   return () => unsubscribe()
+  // }, [scrollPercentageValue])
   return (
     <>
-      <NavBarStatic scrollPercentage={scrollPercentage} />
+      <div className="h-20 md:h-24">
+        <NavBarFixed scrolled={true} navItems={navItems} />
+      </div>
+      {/* <NavBarStatic scrolled={scrolled} navItems={navItems} /> */}
     </>
   )
 }

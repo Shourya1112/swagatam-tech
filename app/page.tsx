@@ -3,6 +3,7 @@
 import Container from '@/components/Container'
 import FeaturedWork from '@/components/homepage/FeaturedWork'
 import Hero from '@/components/homepage/Hero'
+import NavBar from '@/components/navbar/NavBar'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -20,6 +21,7 @@ export default function Home() {
 
   return (
     <Container>
+      {/* <NavBar /> */}
       <div className="min-h-[200vh] w-full">
         <Hero />
         <FeaturedWork />

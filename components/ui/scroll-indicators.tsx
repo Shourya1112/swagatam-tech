@@ -40,6 +40,8 @@ const colorClasses = {
   orange: 'via-orange-500',
   teal: 'via-teal-500',
   cyan: 'via-cyan-500',
+  black: 'via-black',
+  white: 'via-white',
 } as const
 
 const ScrollIndicators = ({ config, onScrollChange }: ScrollIndicatorsProps) => {
@@ -79,7 +81,7 @@ const ScrollIndicators = ({ config, onScrollChange }: ScrollIndicatorsProps) => 
           <motion.div
             style={{ top: `${scrollPercentage / 1.2}vh` }}
             className={cn(
-              'fixed h-40 w-1 rounded-full bg-gradient-to-b from-transparent to-transparent',
+              'fixed h-40 w-px rounded-full bg-gradient-to-b from-transparent to-transparent',
               colorClasses[mergedConfig.left.color as keyof typeof colorClasses] || 'via-blue-500'
             )}
           />

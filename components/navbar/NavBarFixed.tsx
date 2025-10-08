@@ -3,80 +3,87 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { IoIosArrowRoundForward } from 'react-icons/io'
+import { useDevice } from 'next-device-context'
 
-const navItems = [
-  { name: 'Home', link: '/' },
-  { name: 'Projects', link: '/' },
-  { name: 'Services', link: '/' },
-  { name: 'Careers', link: '/' },
-  { name: 'Contact', link: '/' },
-]
+interface navItem {
+  name: string
+  link: string
+}
 
-const NavBarFixed = () => {
-  // const [isHovering, setIsHovering] = useState(false)
-  const [hoverIndex, setHoverIndex] = useState<number>(0)
+const NavBarFixed = ({ scrolled, navItems }: { scrolled: boolean; navItems: navItem[] }) => {
+  const { isMobile } = useDevice()
+  const [isHovering, setIsHovering] = useState(false)
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
   const closeMenu = () => {
-    setHoverIndex(0)
-    // setIsHovering(false)
+    setHoverIndex(null)
+    setIsHovering(false)
   }
+
   return (
     <motion.div
-      initial={{ paddingInline: 0, paddingTop: 0 }}
-      animate={{ paddingInline: '1rem', paddingTop: '1rem' }}
+      initial={{ top: -100, opacity: 0 }}
+      animate={scrolled ? { top: 0, opacity: 1 } : { top: -100, opacity: 0 }}
       transition={{
         duration: 0.4,
+        type: 'spring',
       }}
       onMouseLeave={() => closeMenu()}
-      className="fixed top-0 left-0 z-50 flex w-full items-center justify-center bg-transparent px-4 pt-4"
+      className="fixed left-0 z-50 w-screen bg-transparent px-2 pt-2 md:px-4 md:pt-4"
     >
-      <motion.div
-        initial={{ y: -50 }}
-        animate={{ y: 0 }}
-        transition={{
-          duration: 0.6,
-          type: 'spring',
-        }}
-        className="bg- flex h-20 w-full max-w-5xl items-center justify-between rounded-full bg-black px-4 py-4 backdrop-blur-2xl"
-      >
-        <div className="">
+      <div className="relative flex h-16 w-full items-center justify-between overflow-hidden rounded-full border border-neutral-700 bg-neutral-900 p-2 shadow-2xl backdrop-blur-3xl md:h-20 md:p-4">
+        <div className="relative z-10 ml-4">
           <div className="flex w-full items-center">
-            <p className="text-2xl leading-none font-light tracking-wide text-white uppercase">
+            <p className="leading-none font-light tracking-wide text-white uppercase md:text-2xl">
               Swag<span className="font-bold">atam</span>
             </p>
-            {/* <div className="h-6 w-8 rounded-r-full bg-gradient-to-l from-white via-white to-neutral-950"></div> */}
+            {/* <div className="h-6 w-8 rounded-r-full bg-gradient-to-l from-black via-black to-neutral-950"></div> */}
           </div>
           <div className="flex w-full items-center gap-2">
-            <div className="h-3 w-full rounded-l-full bg-gradient-to-r from-white via-white to-neutral-950"></div>
+            <div className="h-3 w-full rounded-l-full bg-gradient-to-r from-white via-white to-black"></div>
             <p className="text-sm leading-none font-bold tracking-widest text-white">Tech</p>
           </div>
         </div>
 
-        <div className="flex h-full gap-8">
+        <div className="relative z-10 flex h-full gap-8">
+          <button className="relative hidden h-full cursor-pointer items-center justify-center rounded-full border border-white px-6 md:flex">
+            <motion.div
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-2 text-xl font-semibold text-white"
+            >
+              GET IN TOUCH{' '}
+              <span className="text-4xl">
+                <IoIosArrowRoundForward />
+              </span>
+            </motion.div>
+          </button>
+
           <div className="h-full w-fit overflow-hidden rounded-full border border-white p-0.5">
             <div
-              // onMouseEnter={() => setIsHovering(true)}
-              className="relative flex h-full overflow-hidden rounded-full"
+              onMouseEnter={() => !isMobile && setIsHovering(true)}
+              className="relative flex h-full flex-col-reverse overflow-hidden rounded-full md:flex-row"
             >
               <motion.div
-                // initial={{ width: 0, opacity: 0 }}
-                // animate={
-                //   isHovering ? { width: 'fit-content', opacity: 1 } : { width: 0, opacity: 0 }
-                // }
-                // transition={{
-                //   duration: 0.7,
-                //   type: 'spring',
-                // }}
-                className="flex h-full items-center overflow-hidden"
+                initial={{ width: 0, opacity: 0 }}
+                animate={
+                  isHovering ? { width: 'fit-content', opacity: 1 } : { width: 0, opacity: 0 }
+                }
+                transition={{
+                  duration: 0.7,
+                  type: 'spring',
+                }}
+                className="hidden h-full flex-col items-center overflow-hidden md:flex md:flex-row"
               >
                 {navItems.map((item, idx) => {
+                  const inverseIdx = navItems.length - idx
                   return (
                     <motion.div
                       key={idx}
-                      initial={{ color: '#fff' }}
-                      animate={hoverIndex === idx ? { color: '#000' } : { color: '#fff' }}
-                      onMouseEnter={() => setHoverIndex(idx)}
-                      onMouseLeave={() => setHoverIndex(0)}
+                      initial={{ color: '#000' }}
+                      animate={hoverIndex === inverseIdx ? { color: '#000' } : { color: '#fff' }}
+                      onMouseEnter={() => setHoverIndex(inverseIdx)}
+                      onMouseLeave={() => setHoverIndex(null)}
                       className="relative z-24 flex h-full w-24 cursor-pointer items-center justify-center text-lg font-semibold"
                     >
                       {item.name}
@@ -85,31 +92,25 @@ const NavBarFixed = () => {
                 })}
               </motion.div>
               <motion.div
-                initial={{ left: 0 }}
-                animate={{ left: `${hoverIndex * 6}rem` }}
+                initial={{ right: 0 }}
+                animate={hoverIndex !== null ? { right: `${hoverIndex * 6}rem` } : { right: 0 }}
                 transition={{
-                  duration: 0.8,
+                  duration: 0.4,
                   type: 'spring',
                 }}
                 className="pointer-events-none absolute top-0 h-full w-24 rounded-full bg-white"
               ></motion.div>
+              <motion.div
+                initial={{ color: '#000' }}
+                animate={hoverIndex === null ? { color: '#000' } : { color: '#fff' }}
+                className="relative z-20 flex h-full w-24 items-center justify-center text-lg font-semibold"
+              >
+                MENU
+              </motion.div>
             </div>
           </div>
-
-          <button className="relative flex h-full cursor-pointer items-center justify-center rounded-full border border-white px-6">
-            <motion.div
-              initial={{ scale: 1 }}
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-2 text-xl font-semibold text-nowrap text-white"
-            >
-              GET IN TOUCH{' '}
-              <span className="text-4xl">
-                <IoIosArrowRoundForward />
-              </span>
-            </motion.div>
-          </button>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   )
 }

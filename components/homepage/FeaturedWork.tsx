@@ -1,4 +1,6 @@
 import React from 'react'
+import { motion } from 'framer-motion'
+import { useDevice } from 'next-device-context'
 
 const featuredWorkData = [
   {
@@ -41,16 +43,32 @@ const featuredWorkData = [
 ]
 
 const FeaturedWork = () => {
+  const { isMobile } = useDevice()
+
   return (
     <section className="relative z-20">
-      <div className="pb-10">
-        <div className="flex w-full gap-10 overflow-x-auto pl-20">
+      <div className="px-10 pb-10 md:px-0">
+        <div className="flex w-full flex-col items-center gap-10 overflow-x-hidden md:flex-row md:pl-20">
           {featuredWorkData.map((item, index) => (
-            <div
+            <motion.div
               key={index}
-              style={{ background: item.color }}
-              className="group min-h-[40rem] min-w-[25rem] overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg"
-            ></div>
+              initial={{ y: 300 }}
+              animate={{ y: 0 }}
+              transition={{
+                duration: 0.4,
+                // type: 'spring',
+                stiffness: 80,
+                ease: 'easeInOut',
+                damping: 8,
+                bounce: 0.5,
+                delay: 0.2 * index,
+              }}
+              style={{
+                background: item.color,
+                ...(isMobile && index > 1 ? { display: 'none' } : {}),
+              }}
+              className="group min-h-80 w-full min-w-48 overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg md:min-h-[40rem] md:w-fit md:min-w-[25rem]"
+            ></motion.div>
           ))}
         </div>
       </div>

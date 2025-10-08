@@ -3,6 +3,7 @@
 import React, { ReactNode } from 'react'
 import { DeviceProvider } from 'next-device-context'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import NavBar from '@/components/navbar/NavBar'
 
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
@@ -13,6 +14,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         enableSystem={false}
         disableTransitionOnChange
       >
+        <NavBar />
         {children}
       </NextThemesProvider>
     </DeviceProvider>
